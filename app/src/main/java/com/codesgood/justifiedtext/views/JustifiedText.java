@@ -62,9 +62,9 @@ public class JustifiedText extends TextView {
                     temporalLine.add(mThinSpace);
                     sentenceWidth += mPaint.measureText(word) + whiteSpaceWidth;
                 } else {
-                    if(temporalLine.size() > 0)
-                        temporalLine.remove(temporalLine.size() - 1);
-                    sentenceWidth -= whiteSpaceWidth;
+//                    if(temporalLine.size() > 0)
+//                        temporalLine.remove(temporalLine.size() - 1);
+//                    sentenceWidth -= whiteSpaceWidth;
                     while(sentenceWidth < viewWidth){
                         sentenceWidth += whiteSpaceWidth;
                         if(sentenceWidth < viewWidth)
@@ -75,7 +75,7 @@ public class JustifiedText extends TextView {
                     temporalLine.clear();
                     sentenceWidth = 0;
                     whiteSpacesNeeded = 0;
-                    temporalLine.add(mThinSpace + word);
+                    temporalLine.add(word);
                     wordsInThisSentence = 1;
                     temporalLine.add(mThinSpace);
                     sentenceWidth += mPaint.measureText(word) + whiteSpaceWidth;
@@ -111,10 +111,10 @@ public class JustifiedText extends TextView {
             }
         } else if(whiteSpacesNeeded > wordsInThisSentence){
             while(whiteSpacesNeeded > wordsInThisSentence){
-                for(int i = 1; i < sentence.size(); i += 2){
+                for(int i = 1; i < sentence.size() - 1; i += 2){
                     sentence.set(i, sentence.get(i) + mThinSpace);
                 }
-                whiteSpacesNeeded -= wordsInThisSentence;
+                whiteSpacesNeeded -= (wordsInThisSentence - 1);
             }
             if(whiteSpacesNeeded == 0)
                 return;
