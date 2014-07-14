@@ -10,8 +10,8 @@
 
     <com.codesgood.justifiedtext.views.JustifiedText
         android:text="@string/lorem_ipsum"
-        android:layout_width="320dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="18dp"/>
+        android:textSize="25dp"/>
 
 </RelativeLayout>

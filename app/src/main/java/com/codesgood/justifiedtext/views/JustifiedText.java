@@ -16,6 +16,8 @@ public class JustifiedText extends TextView {
 
     Paint mPaint;
 
+    String mThinSpace = "\u200A";
+
     public JustifiedText(Context context) {
         super(context);
     }
@@ -47,7 +49,8 @@ public class JustifiedText extends TextView {
 
             int viewWidth = this.getMeasuredWidth();
             float sentenceWidth = 0;
-            float whiteSpaceWidth = mPaint.measureText(" ");
+
+            float whiteSpaceWidth = mPaint.measureText(mThinSpace);
             int whiteSpacesNeeded = 0;
             int wordsInThisSentence = 0;
 
@@ -56,10 +59,11 @@ public class JustifiedText extends TextView {
                 if((sentenceWidth + mPaint.measureText(word)) < viewWidth){
                     temporalLine.add(word);
                     wordsInThisSentence++;
-                    temporalLine.add(" ");
+                    temporalLine.add(mThinSpace);
                     sentenceWidth += mPaint.measureText(word) + whiteSpaceWidth;
                 } else {
-                    temporalLine.remove(temporalLine.size() - 1);
+                    if(temporalLine.size() > 0)
+                        temporalLine.remove(temporalLine.size() - 1);
                     sentenceWidth -= whiteSpaceWidth;
                     while(sentenceWidth < viewWidth){
                         sentenceWidth += whiteSpaceWidth;
@@ -71,9 +75,9 @@ public class JustifiedText extends TextView {
                     temporalLine.clear();
                     sentenceWidth = 0;
                     whiteSpacesNeeded = 0;
-                    temporalLine.add("\n" + word);
+                    temporalLine.add(mThinSpace + word);
                     wordsInThisSentence = 1;
-                    temporalLine.add(" ");
+                    temporalLine.add(mThinSpace);
                     sentenceWidth += mPaint.measureText(word) + whiteSpaceWidth;
                 }
             }
@@ -98,16 +102,16 @@ public class JustifiedText extends TextView {
 
         if(whiteSpacesNeeded == wordsInThisSentence){
             for(int i = 1; i < sentence.size(); i += 2){
-                sentence.set(i, sentence.get(i) + " ");
+                sentence.set(i, sentence.get(i) + mThinSpace);
             }
         } else if(whiteSpacesNeeded < wordsInThisSentence){
             for(int i = 0; i < whiteSpacesNeeded; i++){
                 int randomPosition = getRandomEvenNumber(sentence.size() - 1);
-                sentence.set(randomPosition, sentence.get(randomPosition) + " ");
+                sentence.set(randomPosition, sentence.get(randomPosition) + mThinSpace);
             }
         } else if(whiteSpacesNeeded > wordsInThisSentence){
             for(int i = 1; i < sentence.size(); i += 2){
-                sentence.set(i, sentence.get(i) + " ");
+                sentence.set(i, sentence.get(i) + mThinSpace);
             }
             insertWhiteSpaces(whiteSpacesNeeded - wordsInThisSentence, wordsInThisSentence, sentence);
         }
