@@ -110,10 +110,25 @@ public class JustifiedText extends TextView {
                 sentence.set(randomPosition, sentence.get(randomPosition) + mThinSpace);
             }
         } else if(whiteSpacesNeeded > wordsInThisSentence){
-            for(int i = 1; i < sentence.size(); i += 2){
-                sentence.set(i, sentence.get(i) + mThinSpace);
+            while(whiteSpacesNeeded > wordsInThisSentence){
+                for(int i = 1; i < sentence.size(); i += 2){
+                    sentence.set(i, sentence.get(i) + mThinSpace);
+                }
+                whiteSpacesNeeded -= wordsInThisSentence;
             }
-            insertWhiteSpaces(whiteSpacesNeeded - wordsInThisSentence, wordsInThisSentence, sentence);
+            if(whiteSpacesNeeded == 0)
+                return;
+
+            if(whiteSpacesNeeded == wordsInThisSentence){
+                for(int i = 1; i < sentence.size(); i += 2){
+                    sentence.set(i, sentence.get(i) + mThinSpace);
+                }
+            } else if(whiteSpacesNeeded < wordsInThisSentence){
+                for(int i = 0; i < whiteSpacesNeeded; i++){
+                    int randomPosition = getRandomEvenNumber(sentence.size() - 1);
+                    sentence.set(randomPosition, sentence.get(randomPosition) + mThinSpace);
+                }
+            }
         }
     }
 
