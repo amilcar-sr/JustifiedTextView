@@ -13,7 +13,7 @@ JText is an Android View that justifies the Text!
 You just have to add the view in your layout:
 
 ```xml
-<com.codesgood.justifiedtext.views.JText
+<com.codesgood.views.JText
         android:text="@string/lorem_ipsum"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
