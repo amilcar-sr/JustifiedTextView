@@ -1,4 +1,4 @@
-package com.codesgood.justifiedtext.views;
+package com.codesgood.views;
 
 import android.content.Context;
 import android.graphics.Paint;
@@ -76,6 +76,7 @@ public class JText extends TextView {
 
         //This class won't justify the text if the TextView has wrap_content as width
         //And won't repeat the process of justify text if it's already done.
+        //AND! won't justify the text if the view width is smaller than 150dp
         if(params.width != ViewGroup.LayoutParams.WRAP_CONTENT && getMeasuredWidth() >= 150 && words.length > 0 && justifiedText.isEmpty()){
 
             int viewWidth = this.getMeasuredWidth();

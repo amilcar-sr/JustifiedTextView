@@ -1,4 +1,4 @@
-package com.codesgood.justifiedtext.activities;
+package com.codesgood.views.activities;
 
 import android.app.Activity;
 import android.os.Bundle;
