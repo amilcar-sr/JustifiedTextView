@@ -76,7 +76,7 @@ public class JText extends TextView {
 
         //This class won't justify the text if the TextView has wrap_content as width
         //And won't repeat the process of justify text if it's already done.
-        if(params.width != ViewGroup.LayoutParams.WRAP_CONTENT && getMeasuredWidth() >= 200 && words.length > 0 && justifiedText.isEmpty()){
+        if(params.width != ViewGroup.LayoutParams.WRAP_CONTENT && getMeasuredWidth() >= 150 && words.length > 0 && justifiedText.isEmpty()){
 
             int viewWidth = this.getMeasuredWidth();
 
