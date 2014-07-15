@@ -3,6 +3,11 @@ JText
 
 JText is an Android View that justifies the Text!
 
+![alt landscape](https://raw.githubusercontent.com/amilcar-sr/amilcar-sr.github.io/master/jtext/jtext_land.png)
+
+![alt portrait](https://raw.githubusercontent.com/amilcar-sr/amilcar-sr.github.io/master/jtext/jtext_port.png)
+
+
 ##Usage
 
 You just have to add the view in your layout:
