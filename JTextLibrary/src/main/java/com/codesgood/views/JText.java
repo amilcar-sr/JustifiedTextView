@@ -135,11 +135,11 @@ public class JText extends TextView {
 
     //Function that joins the words of the ArrayList
     private String joinWords(ArrayList<String> words) {
-         String sentence = "";
-         for(String word : words){
-             sentence += word;
-         }
-         return sentence;
+        String sentence = "";
+        for(String word : words){
+            sentence += word;
+        }
+        return sentence;
     }
 
     //Method that inserts spaces into the words to make them fix perfectly in the width of the view. I know I'm a genius naming stuff :)

@@ -1,4 +1,4 @@
-package com.codesgood.views.activities;
+package com.codesgood.example.activities;
 
 import android.app.Activity;
 import android.os.Bundle;
