@@ -9,10 +9,38 @@
     tools:context=".MainActivity"
     android:orientation="vertical">
 
-    <com.codesgood.justifiedtext.views.JText
-        android:text="@string/lorem_ipsum"
+    <TextView
+        android:text="JText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="15sp"/>
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        android:textSize="30sp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <com.codesgood.justifiedtext.views.JText
+            android:text="@string/lorem_ipsum"
+            android:layout_width="1dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginTop="25dp"
+            android:layout_marginRight="4dp"
+            android:textSize="15sp"/>
+
+        <com.codesgood.justifiedtext.views.JText
+            android:text="@string/lorem_ipsum"
+            android:layout_width="1dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginTop="25dp"
+            android:layout_marginLeft="4dp"
+            android:textSize="15sp"/>
+
+        </LinearLayout>
+
 
 </LinearLayout>

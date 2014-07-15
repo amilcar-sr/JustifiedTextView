@@ -76,7 +76,7 @@ public class JText extends TextView {
 
         //This class won't justify the text if the TextView has wrap_content as width
         //And won't repeat the process of justify text if it's already done.
-        if(params.width != ViewGroup.LayoutParams.WRAP_CONTENT && words.length > 0 && justifiedText.isEmpty()){
+        if(params.width != ViewGroup.LayoutParams.WRAP_CONTENT && getMeasuredWidth() >= 200 && words.length > 0 && justifiedText.isEmpty()){
 
             int viewWidth = this.getMeasuredWidth();
 
@@ -118,9 +118,10 @@ public class JText extends TextView {
                 }
             }
             justifiedText += joinWords(temporalLine);
-
-            this.setText(justifiedText);
         }
+
+        if(!justifiedText.isEmpty())
+            this.setText(justifiedText);
     }
 
     //Method that resets the values of the actual line being processed
