@@ -15,11 +15,4 @@
         android:layout_height="wrap_content"
         android:textSize="15sp"/>
 
-    <TextView
-        android:text="@string/lorem_ipsum"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:textSize="15sp"/>
-
 </LinearLayout>
