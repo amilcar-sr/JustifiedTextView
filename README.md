@@ -20,7 +20,7 @@ You just have to add the view in your layout:
         android:textSize="15sp"/>
 ```
 
-And that's it! the text contained in the JText view will be justified.
+And that's it! the text contained in the JText view will be justified. (In this example I wrote 15sp as textSize, but you can use a different textSize and it won't be a problem).
 
 
 ##Thanks
