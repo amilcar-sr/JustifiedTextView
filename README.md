@@ -1,16 +1,9 @@
----
-title: JText
-description: JText is an Android View that justifies the Text!
-author: Amilcar Serrano
-tags: android, view, text, justify
-created:  2014 Jul 12
-
----
-
 JText
 =========
 
-###Usage
+JText is an Android View that justifies the Text!
+
+##Usage
 
 You just have to add the view in your layout:
 
@@ -23,3 +16,9 @@ You just have to add the view in your layout:
 ```
 
 And that's it! the text contained in the JText view will be justified.
+
+
+##Thanks
+
+- [Rose Hulman Institute of Technology (Algorithm source)](http://www.rose-hulman.edu/Users/faculty/young/CS-Classes/csse220/200820/web/Programs/Markov/justification.html)
+
