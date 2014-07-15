@@ -9,24 +9,40 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Random;
 
-/**
- * Created by CodesGood on 7/12/14.
- */
-public class JustifiedText extends TextView {
+//Created by CodesGood on 7/12/14.
+public class JText extends TextView {
 
+    //Object that helps us to measure the words and characters like spaces.
     Paint mPaint;
 
+    //Thin space character that will fill the spaces
     String mThinSpace = "\u200A";
 
-    public JustifiedText(Context context) {
+    //String that will storage the text with the inserted spaces
+    String justifiedText = "";
+
+    //Float that represents the actual width of a sentence
+    float sentenceWidth = 0;
+
+    //Integer that counts the spaces needed to fill the line being processed
+    int whiteSpacesNeeded = 0;
+
+    //Integer that counts the actual amount of words in the sentence
+    int wordsInThisSentence = 0;
+
+    //ArrayList of Strings that will contain the words of the sentence being processed
+    ArrayList<String> temporalLine = new ArrayList<String>();
+
+    //Default Constructors!
+    public JText(Context context) {
         super(context);
     }
 
-    public JustifiedText(Context context, AttributeSet attrs) {
+    public JText(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public JustifiedText(Context context, AttributeSet attrs, int defStyle) {
+    public JText(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
 
@@ -36,36 +52,33 @@ public class JustifiedText extends TextView {
 
         ViewGroup.LayoutParams params = this.getLayoutParams();
 
-        String[] words = this.getText().toString().split("\\s+");
-
-        String justifiedText = "";
-
-        ArrayList<String> temporalLine = new ArrayList<String>();
+        String[] words = this.getText().toString().split(" ");
 
         mPaint = this.getPaint();
 
         //This class won't justify the text if the TextView has wrap_content as width
-        if(params.width != ViewGroup.LayoutParams.WRAP_CONTENT && words.length > 0){
+        //And won't repeat the process of justify text if it's already done.
+        if(params.width != ViewGroup.LayoutParams.WRAP_CONTENT && words.length > 0 && justifiedText.isEmpty()){
 
             int viewWidth = this.getMeasuredWidth();
-            float sentenceWidth = 0;
 
             float thinSpaceWidth = mPaint.measureText(mThinSpace);
             float whiteSpaceWidth = mPaint.measureText(" ");
-            int whiteSpacesNeeded = 0;
-            int wordsInThisSentence = 0;
 
             for(String word : words){
+
+                boolean containsNewLine = (word.contains("\n") || word.contains("\r"));
 
                 if((sentenceWidth + mPaint.measureText(word)) < viewWidth){
                     temporalLine.add(word);
                     wordsInThisSentence++;
                     temporalLine.add(" ");
                     sentenceWidth += mPaint.measureText(word) + whiteSpaceWidth;
+                    if(containsNewLine){
+                        justifiedText += joinWords(temporalLine);
+                        resetLineValues();
+                    }
                 } else {
-//                    if(temporalLine.size() > 0)
-//                        temporalLine.remove(temporalLine.size() - 1);
-//                    sentenceWidth -= thinSpaceWidth;
                     while(sentenceWidth < viewWidth){
                         sentenceWidth += thinSpaceWidth;
                         if(sentenceWidth < viewWidth)
@@ -73,9 +86,13 @@ public class JustifiedText extends TextView {
                     }
                     insertWhiteSpaces(whiteSpacesNeeded, wordsInThisSentence, temporalLine);
                     justifiedText += joinWords(temporalLine);
-                    temporalLine.clear();
-                    sentenceWidth = 0;
-                    whiteSpacesNeeded = 0;
+                    resetLineValues();
+
+                    if(containsNewLine){
+                        justifiedText += word;
+                        wordsInThisSentence = 0;
+                        continue;
+                    }
                     temporalLine.add(word);
                     wordsInThisSentence = 1;
                     temporalLine.add(" ");
@@ -88,6 +105,15 @@ public class JustifiedText extends TextView {
         }
     }
 
+    //Method that resets the values of the actual line being processed
+    private void resetLineValues(){
+        temporalLine.clear();
+        sentenceWidth = 0;
+        whiteSpacesNeeded = 0;
+        wordsInThisSentence = 0;
+    }
+
+    //Function that joins the words of the ArrayList
     private String joinWords(ArrayList<String> words) {
          String sentence = "";
          for(String word : words){
@@ -96,6 +122,7 @@ public class JustifiedText extends TextView {
          return sentence;
     }
 
+    //Method that inserts spaces into the words to make them fix perfectly in the width of the view. I know I'm a genius naming stuff :)
     private void insertWhiteSpaces(int whiteSpacesNeeded, int wordsInThisSentence, ArrayList<String> sentence){
 
         if(whiteSpacesNeeded == 0)
@@ -111,6 +138,9 @@ public class JustifiedText extends TextView {
                 sentence.set(randomPosition, sentence.get(randomPosition) + mThinSpace);
             }
         } else if(whiteSpacesNeeded > wordsInThisSentence){
+            //I was using recursion to achieve this... but when you tried to watch the preview,
+            //Android Studio couldn't show any preview because a StackOverflow happened.
+            //So... it ended like this, with a wild while xD.
             while(whiteSpacesNeeded > wordsInThisSentence){
                 for(int i = 1; i < sentence.size() - 1; i += 2){
                     sentence.set(i, sentence.get(i) + mThinSpace);
@@ -133,12 +163,11 @@ public class JustifiedText extends TextView {
         }
     }
 
+    //Gets a random number, it's part of the algorithm... don't blame me.
     private int getRandomEvenNumber(int max){
         Random rand = new Random();
 
         // nextInt is normally exclusive of the top value,
-        int randomNum = rand.nextInt((max)) & ~1;
-
-        return randomNum;
+        return rand.nextInt((max)) & ~1;
     }
 }
