@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ivy-module version="2.0" xmlns:m="http://ant.apache.org/ivy/maven">
-  <info organisation="JText" module="JTextLibrary" revision="unspecified" status="integration" publication="20140715182452">
+  <info organisation="JText" module="JTextLibrary" revision="unspecified" status="integration" publication="20140715183717">
     <description/>
   </info>
   <configurations>

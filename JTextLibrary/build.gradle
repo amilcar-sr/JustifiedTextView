@@ -8,7 +8,7 @@ artifacts {
 uploadArchives {
     repositories {
         mavenDeployer {
-            repository(url: "https://github.com/amilcar-sr")
+            repository(url: "https://github.com/amilcar-sr/JText")
             pom.project {
                 licenses {
                     license {
@@ -18,9 +18,9 @@ uploadArchives {
                     }
                 }
             }
+            pom.groupId = 'tree.master'
             pom.version = '1.0'
             pom.artifactId = 'JTextLibrary'
-            pom.packaging = 'aar'
         }
     }
 }

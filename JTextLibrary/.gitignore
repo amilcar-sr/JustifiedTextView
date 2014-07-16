@@ -1,1 +1,5 @@
-build/
+build/generated/
+build/intermediates/
+build/outputs/
+build/tmp/
+build/ivy.xml
