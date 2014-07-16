@@ -1,17 +1,26 @@
 apply plugin: 'com.android.library'
 apply plugin: 'maven'
 
-def coreAarFile = file('build/outputs/aar/JTextLibrary.aar')
+def coreAarFile = file('JTextLibrary.aar')
 artifacts {
     archives coreAarFile
 }
 uploadArchives {
     repositories {
         mavenDeployer {
-            repository(url: "https://github.com/amilcar-sr/JText")
-            pom.groupId = 'com.codesgood.lib'
-            pom.artifactId = 'jtext-lib'
+            repository(url: "https://github.com/amilcar-sr")
+            pom.project {
+                licenses {
+                    license {
+                        name 'The Apache Software License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        distribution 'repo'
+                    }
+                }
+            }
             pom.version = '1.0'
+            pom.artifactId = 'JTextLibrary'
+            pom.packaging = 'aar'
         }
     }
 }
