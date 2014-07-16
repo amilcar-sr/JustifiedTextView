@@ -25,7 +25,7 @@ And that's it! the text contained in the JText view will be justified. (In this 
 
 ##Download jar or aar
 
-I tried to upload the library to maven... but I just got confused and messed up the repo and other stuff... so, take the jar or the aar! (If some of you can provide an useful guide tu upload libraries to maven, I'd appreciate it).
+I tried to upload the library to maven... but I just got confused and messed up the repo and other stuff... so, take the jar or the aar! (If someone can provide an useful guide tu upload libraries to maven, I'd appreciate it).
 
 - [JText (jar)](https://github.com/amilcar-sr/JText/blob/master/jtext.jar)
 - [JText (aar)](https://github.com/amilcar-sr/JText/blob/master/JTextLibrary/JTextLibrary.aar)
