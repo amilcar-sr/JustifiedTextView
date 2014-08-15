@@ -74,12 +74,12 @@ public class JText extends TextView {
 
         mPaint = this.getPaint();
 
+        int viewWidth = this.getMeasuredWidth() - (getPaddingLeft() + getPaddingRight());
+
         //This class won't justify the text if the TextView has wrap_content as width
         //And won't repeat the process of justify text if it's already done.
-        //AND! won't justify the text if the view width is smaller than 150dp
-        if(params.width != ViewGroup.LayoutParams.WRAP_CONTENT && getMeasuredWidth() >= 150 && words.length > 0 && justifiedText.isEmpty()){
-
-            int viewWidth = this.getMeasuredWidth();
+        //AND! won't justify the text if the view width is smaller than 300sdp
+        if(params.width != ViewGroup.LayoutParams.WRAP_CONTENT && viewWidth >= 300 && words.length > 0 && justifiedText.isEmpty()){
 
             float thinSpaceWidth = mPaint.measureText(mThinSpace);
             float whiteSpaceWidth = mPaint.measureText(" ");
