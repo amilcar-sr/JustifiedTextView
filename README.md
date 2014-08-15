@@ -23,6 +23,14 @@ You just have to add the view in your layout:
 And that's it! the text contained in the JText view will be justified. (In this example I wrote 15sp as textSize, but you can use a different textSize and it won't be a problem).
 
 
+##Download jar or aar
+
+I tried to upload the library to maven... but I just got confused and messed up the repo and other stuff... so, take the jar or the aar! (If someone can provide an useful guide tu upload libraries to maven, I'd appreciate it).
+
+- [JText (jar)](https://github.com/amilcar-sr/JText/blob/master/jtext.jar)
+- [JText (aar)](https://github.com/amilcar-sr/JText/blob/master/JTextLibrary/JTextLibrary.aar)
+
+
 ##Thanks
 
 - [Rose Hulman Institute of Technology (Algorithm source)](http://www.rose-hulman.edu/Users/faculty/young/CS-Classes/csse220/200820/web/Programs/Markov/justification.html)
