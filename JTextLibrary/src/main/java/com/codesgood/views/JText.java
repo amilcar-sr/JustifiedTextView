@@ -78,8 +78,8 @@ public class JText extends TextView {
 
         //This class won't justify the text if the TextView has wrap_content as width
         //And won't repeat the process of justify text if it's already done.
-        //AND! won't justify the text if the view width is smaller than 300sdp
-        if(params.width != ViewGroup.LayoutParams.WRAP_CONTENT && viewWidth >= 300 && words.length > 0 && justifiedText.isEmpty()){
+        //AND! won't justify the text if the view width is 0
+        if(params.width != ViewGroup.LayoutParams.WRAP_CONTENT && viewWidth > 0 && words.length > 0 && justifiedText.isEmpty()){
 
             float thinSpaceWidth = mPaint.measureText(mThinSpace);
             float whiteSpaceWidth = mPaint.measureText(" ");
@@ -103,7 +103,10 @@ public class JText extends TextView {
                         if(sentenceWidth < viewWidth)
                             whiteSpacesNeeded++;
                     }
-                    insertWhiteSpaces(whiteSpacesNeeded, wordsInThisSentence, temporalLine);
+
+                    if(wordsInThisSentence > 1)
+                        insertWhiteSpaces(whiteSpacesNeeded, wordsInThisSentence, temporalLine);
+
                     justifiedText += joinWords(temporalLine);
                     resetLineValues();
 
