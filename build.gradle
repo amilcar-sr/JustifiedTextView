@@ -26,8 +26,6 @@ allprojects {
     group = GROUP
 
     repositories {
-
         mavenCentral()
-
     }
 }
