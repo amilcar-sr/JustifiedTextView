@@ -23,12 +23,25 @@ You just have to add the view in your layout:
 And that's it! the text contained in the JText view will be justified. (In this example I wrote 15sp as textSize, but you can use a different textSize and it won't be a problem).
 
 
-##Download jar or aar
+##Add JText to your project
 
-I tried to upload the library to maven... but I just got confused and messed up the repo and other stuff... so, take the jar or the aar! (If someone can provide an useful guide tu upload libraries to maven, I'd appreciate it).
+JText is available on Maven Central. Please ensure that you are using the latest version by [checking here](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.codesgood%22%20AND%20a%3A%22jtextlib%22)
 
-- [JText (jar)](https://github.com/amilcar-sr/JText/blob/master/jtext.jar)
-- [JText (aar)](https://github.com/amilcar-sr/JText/blob/master/JTextLibrary/JTextLibrary.aar)
+Gradle:
+```
+    compile 'compile 'com.codesgood:jtextlib:1.0.0''
+```
+
+Maven:
+```
+<dependency>
+    <groupId>com.codesgood</groupId>
+    <artifactId>jtextlib</artifactId>
+    <version>1.0.0</version>
+</dependency>
+```
+
+Or download the jar [here](https://github.com/amilcar-sr/JText/blob/master/jtext.jar)
 
 
 ##Thanks
