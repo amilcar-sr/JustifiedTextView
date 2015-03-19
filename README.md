@@ -29,7 +29,7 @@ JText is available on Maven Central. Please ensure that you are using the latest
 
 Gradle:
 ```
-compile 'compile 'com.codesgood:jtextlib:1.0.0''
+compile 'com.codesgood:jtextlib:1.0.0'
 ```
 
 Maven:
