@@ -1,7 +1,7 @@
-JText
+JustifiedTextView
 =========
 
-JText is an Android View that justifies the Text!
+JustifiedTextView is an Android View that justifies the Text!
 
 ![alt landscape](https://raw.githubusercontent.com/amilcar-sr/amilcar-sr.github.io/master/jtext/jtext_land.png)
 
@@ -13,35 +13,35 @@ JText is an Android View that justifies the Text!
 You just have to add the view in your layout:
 
 ```xml
-<com.codesgood.views.JText
+<com.codesgood.views.JustifiedTextView
         android:text="@string/lorem_ipsum"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="15sp"/>
 ```
 
-And that's it! the text contained in the JText view will be justified. (In this example I wrote 15sp as textSize, but you can use a different textSize and it won't be a problem).
+And that's it! the text contained in the JustifiedTextView view will be justified. (In this example I wrote 15sp as textSize, but you can use a different textSize and it won't be a problem).
 
 
-##Add JText to your project
+##Add JustifiedTextView to your project
 
-JText is available on Maven Central. Please ensure that you are using the latest version by [checking here](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.codesgood%22%20AND%20a%3A%22jtextlib%22)
+JustifiedTextView is available on Maven Central. Please ensure that you are using the latest version by [checking here](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.codesgood%22%20AND%20a%3A%22justifiedtextview%22)
 
 Gradle:
 ```
-compile 'com.codesgood:jtextlib:1.0.0'
+compile 'com.codesgood:justifiedtextview:1.0.0'
 ```
 
 Maven:
 ```
 <dependency>
     <groupId>com.codesgood</groupId>
-    <artifactId>jtextlib</artifactId>
+    <artifactId>justifiedtextview</artifactId>
     <version>1.0.0</version>
 </dependency>
 ```
 
-Or download the jar [here](https://github.com/amilcar-sr/JText/blob/master/jtext.jar)
+Or download the jar [here](https://github.com/amilcar-sr/JustifiedTextView/blob/master/jtext.jar)
 
 
 ##Thanks
