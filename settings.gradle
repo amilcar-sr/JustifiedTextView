@@ -1,1 +1,1 @@
-include ':app', ':JTextLibrary'
+include 'ExampleApp', 'JustifiedTextView'

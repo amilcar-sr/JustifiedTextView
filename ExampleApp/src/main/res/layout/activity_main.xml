@@ -10,7 +10,7 @@
     android:orientation="vertical">
 
     <TextView
-        android:text="JText"
+        android:text="JustifiedTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -22,9 +22,9 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <com.codesgood.views.JText
-            android:text="@string/lorem_ipsum"
-            android:layout_width="1dp"
+        <com.codesgood.views.JustifiedTextView
+            android:id="@+id/text_one"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_marginTop="25dp"
@@ -32,9 +32,10 @@
             android:padding="10dp"
             android:textSize="15sp"/>
 
-        <com.codesgood.views.JText
+        <com.codesgood.views.JustifiedTextView
+            android:id="@+id/text_two"
             android:text="@string/lorem_ipsum"
-            android:layout_width="1dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_marginTop="25dp"

@@ -3,6 +3,7 @@ package com.codesgood.views;
 import android.content.Context;
 import android.graphics.Paint;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -28,7 +29,7 @@ limitations under the License.
 *********************************************************************** */
 
 //Created by CodesGood on 7/12/14.
-public class JText extends TextView {
+public class JustifiedTextView extends TextView {
 
     //Object that helps us to measure the words and characters like spaces.
     Paint mPaint;
@@ -52,22 +53,21 @@ public class JText extends TextView {
     ArrayList<String> temporalLine = new ArrayList<String>();
 
     //Default Constructors!
-    public JText(Context context) {
+    public JustifiedTextView(Context context) {
         super(context);
     }
 
-    public JText(Context context, AttributeSet attrs) {
+    public JustifiedTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public JText(Context context, AttributeSet attrs, int defStyle) {
+    public JustifiedTextView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
 
     @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-
+    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        super.onLayout(changed, left, top, right, bottom);
         ViewGroup.LayoutParams params = this.getLayoutParams();
 
         String[] words = this.getText().toString().split(" ");

@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.codesgood.justifiedtext.R;
+import com.codesgood.views.JustifiedTextView;
 
 
 public class MainActivity extends Activity {
@@ -14,6 +16,9 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        TextView view = (TextView) findViewById(R.id.text_one);
+        view.setText(getResources().getString(R.string.lorem_ipsum));
     }
 
 
