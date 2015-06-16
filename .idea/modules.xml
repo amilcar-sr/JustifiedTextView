@@ -3,9 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/ExampleApp/ExampleApp.iml" filepath="$PROJECT_DIR$/ExampleApp/ExampleApp.iml" />
-      <module fileurl="file://$PROJECT_DIR$/JText.iml" filepath="$PROJECT_DIR$/JText.iml" />
-      <module fileurl="file://$PROJECT_DIR$/JustifiedTextView/JustifiedTextView.iml" filepath="$PROJECT_DIR$/JustifiedTextView/JustifiedTextView.iml" />
+      <module fileurl="file://$PROJECT_DIR$/JustifiedTextView.iml" filepath="$PROJECT_DIR$/JustifiedTextView.iml" />
+      <module fileurl="file://$PROJECT_DIR$/JustifiedTextView/JustifiedTextView-JustifiedTextView.iml" filepath="$PROJECT_DIR$/JustifiedTextView/JustifiedTextView-JustifiedTextView.iml" />
     </modules>
   </component>
 </project>
-

@@ -1,14 +1,22 @@
 package com.codesgood.views;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Paint;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ClickableSpan;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.util.Patterns;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /* ***********************************************************************
 
@@ -50,19 +58,67 @@ public class JustifiedTextView extends TextView {
     int wordsInThisSentence = 0;
 
     //ArrayList of Strings that will contain the words of the sentence being processed
-    ArrayList<String> temporalLine = new ArrayList<String>();
+    ArrayList<String> temporalLine = new ArrayList<>();
+
+    //click listener to allow links
+    TextLinkClickListener mListener;
+
+    //allow clickable links
+    boolean mCheckLinks;
 
     //Default Constructors!
     public JustifiedTextView(Context context) {
-        super(context);
+
+        this(context, null, 0);
+        //super(context);
     }
 
     public JustifiedTextView(Context context, AttributeSet attrs) {
-        super(context, attrs);
+
+        this(context, attrs, 0);
+        //super(context, attrs);
+        //initAttrs(attrs);
+
     }
 
     public JustifiedTextView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+        initAttrs(attrs);
+    }
+
+    public void initAttrs( AttributeSet attrs){
+        if(attrs==null){
+            mCheckLinks = false;
+        }else{
+            TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.JustifiedTextView);
+            try{
+                mCheckLinks = typedArray.getBoolean(R.styleable.JustifiedTextView_checkLinks, false);
+            }finally{
+                typedArray.recycle();
+            }
+        }
+    }
+
+    /* clickable links */
+    public interface TextLinkClickListener {
+        void onTextLinkClick(View textView, String clickedString);
+    }
+
+    public void setOnTextLinkClickListener(TextLinkClickListener newListener) {
+        mListener = newListener;
+    }
+
+    public class InternalURLSpan extends ClickableSpan {
+        private String clickedSpan;
+
+        public InternalURLSpan (String clickedString) {
+            clickedSpan = clickedString;
+        }
+
+        @Override
+        public void onClick(View textView) {
+            mListener.onTextLinkClick(textView, clickedSpan.replace("\u00A0", ""));
+        }
     }
 
     @Override
@@ -124,8 +180,15 @@ public class JustifiedTextView extends TextView {
             justifiedText += joinWords(temporalLine);
         }
 
-        if(!justifiedText.isEmpty())
-            this.setText(justifiedText);
+        if(!justifiedText.isEmpty()) {
+            //check for hyperlinks
+            if(mCheckLinks) {
+                SpannableString textToSet = checkForHyperLinks(justifiedText);
+                this.setText(textToSet);
+            }else{
+                this.setText(justifiedText);
+            }
+        }
     }
 
     //Method that resets the values of the actual line being processed
@@ -193,4 +256,25 @@ public class JustifiedTextView extends TextView {
         // nextInt is normally exclusive of the top value,
         return rand.nextInt((max)) & ~1;
     }
+
+    private SpannableString checkForHyperLinks(String aString){
+        //Pattern hyperLinksPattern = Patterns.WEB_URL;
+        Pattern hyperLinksPattern = Pattern.compile("([Hh][tT][tT][pP][sS]?:\\/\\/[^ ,'\">\\]\\)]*[^\\. ,'\">\\]\\)])", Pattern.CASE_INSENSITIVE);
+        Matcher matcher = hyperLinksPattern.matcher(aString);
+        SpannableString finalString = new SpannableString(aString);
+        while (matcher.find()) {
+
+            int start = matcher.start();
+            int end = matcher.end();
+
+            CharSequence textSpan =  finalString.subSequence(start, end);
+            Log.d("JustifiedTextView", "matcher : "+textSpan.toString());
+            //CharSequence textSpan =  finalString.subSequence(adjustedStart, adjustedEnd);
+            InternalURLSpan span = new InternalURLSpan(textSpan.toString());
+            //finalString.setSpan(span, adjustedStart, adjustedEnd, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            finalString.setSpan(span, start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+        return finalString;
+    }
+
 }
