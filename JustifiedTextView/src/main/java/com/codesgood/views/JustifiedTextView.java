@@ -69,19 +69,17 @@ public class JustifiedTextView extends TextView {
     public JustifiedTextView(Context context) {
 
         this(context, null, 0);
-        //super(context);
     }
 
     public JustifiedTextView(Context context, AttributeSet attrs) {
 
         this(context, attrs, 0);
-        //super(context, attrs);
-        //initAttrs(attrs);
 
     }
 
     public JustifiedTextView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+        //allow easier pull request
         initAttrs(attrs);
     }
 

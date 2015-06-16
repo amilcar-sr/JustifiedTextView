@@ -23,6 +23,8 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
+        <!--allow easier pull request-->
+
         <com.codesgood.views.JustifiedTextView
             android:id="@+id/text_one"
             android:layout_width="0dp"

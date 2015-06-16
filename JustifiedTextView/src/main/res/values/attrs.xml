@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--allow easier pull request-->
     <declare-styleable name="JustifiedTextView">
         <attr name="clickableLinks" format="boolean"/>
     </declare-styleable>

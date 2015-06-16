@@ -24,6 +24,7 @@ public class MainActivity extends Activity implements JustifiedTextView.TextLink
 
         JustifiedTextView view = (JustifiedTextView) findViewById(R.id.text_one);
         view.setText(getResources().getString(R.string.lorem_ipsum));
+        //allow easier pull request
         view.setLinkTextColor(Color.RED);
         view.setOnTextLinkClickListener(this);
         view.setMovementMethod(LinkMovementMethod.getInstance());
