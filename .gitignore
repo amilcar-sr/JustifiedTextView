@@ -27,3 +27,6 @@ proguard/
 *.log
 /.idea
 /*/.idea
+
+#IDE Files
+.idea/
