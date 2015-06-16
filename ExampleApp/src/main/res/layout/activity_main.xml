@@ -37,7 +37,7 @@
 
         <com.codesgood.views.JustifiedTextView
             android:id="@+id/text_two"
-            android:text="@string/noticeInstructions"
+            android:text="@string/lorem_ipsum"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
