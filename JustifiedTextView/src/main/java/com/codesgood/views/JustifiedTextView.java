@@ -8,7 +8,6 @@ import android.text.SpannableString;
 import android.text.style.ClickableSpan;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.util.Patterns;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -64,7 +63,7 @@ public class JustifiedTextView extends TextView {
     TextLinkClickListener mListener;
 
     //allow clickable links
-    boolean mCheckLinks;
+    boolean mClickableLinks;
 
     //Default Constructors!
     public JustifiedTextView(Context context) {
@@ -88,11 +87,11 @@ public class JustifiedTextView extends TextView {
 
     public void initAttrs( AttributeSet attrs){
         if(attrs==null){
-            mCheckLinks = false;
+            mClickableLinks = false;
         }else{
             TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.JustifiedTextView);
             try{
-                mCheckLinks = typedArray.getBoolean(R.styleable.JustifiedTextView_checkLinks, false);
+                mClickableLinks = typedArray.getBoolean(R.styleable.JustifiedTextView_clickableLinks, false);
             }finally{
                 typedArray.recycle();
             }
@@ -182,7 +181,7 @@ public class JustifiedTextView extends TextView {
 
         if(!justifiedText.isEmpty()) {
             //check for hyperlinks
-            if(mCheckLinks) {
+            if(mClickableLinks) {
                 SpannableString textToSet = checkForHyperLinks(justifiedText);
                 this.setText(textToSet);
             }else{
