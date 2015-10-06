@@ -3,7 +3,6 @@ package com.codesgood.views;
 import android.content.Context;
 import android.graphics.Paint;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -52,11 +51,11 @@ public class JustifiedTextView extends TextView {
     //ArrayList of Strings that will contain the words of the sentence being processed
     ArrayList<String> temporalLine = new ArrayList<String>();
 
-    int mViewWidth;
+    private int mViewWidth;
 
-    float mThinSpaceWidth;
+    private float mThinSpaceWidth;
 
-    float mWhiteSpaceWidth;
+    private float mWhiteSpaceWidth;
 
     //Default Constructors!
     public JustifiedTextView(Context context) {
