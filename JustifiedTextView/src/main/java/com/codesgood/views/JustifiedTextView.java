@@ -52,6 +52,12 @@ public class JustifiedTextView extends TextView {
     //ArrayList of Strings that will contain the words of the sentence being processed
     ArrayList<String> temporalLine = new ArrayList<String>();
 
+    int mViewWidth;
+
+    float mThinSpaceWidth;
+
+    float mWhiteSpaceWidth;
+
     //Default Constructors!
     public JustifiedTextView(Context context) {
         super(context);
@@ -74,58 +80,69 @@ public class JustifiedTextView extends TextView {
 
         mPaint = this.getPaint();
 
-        int viewWidth = this.getMeasuredWidth() - (getPaddingLeft() + getPaddingRight());
+        mViewWidth = this.getMeasuredWidth() - (getPaddingLeft() + getPaddingRight());
 
         //This class won't justify the text if the TextView has wrap_content as width
         //And won't repeat the process of justify text if it's already done.
         //AND! won't justify the text if the view width is 0
-        if(params.width != ViewGroup.LayoutParams.WRAP_CONTENT && viewWidth > 0 && words.length > 0 && justifiedText.isEmpty()){
+        if(params.width != ViewGroup.LayoutParams.WRAP_CONTENT && mViewWidth > 0 && words.length > 0 && justifiedText.isEmpty()){
 
-            float thinSpaceWidth = mPaint.measureText(mThinSpace);
-            float whiteSpaceWidth = mPaint.measureText(" ");
+            mThinSpaceWidth = mPaint.measureText(mThinSpace);
+            mWhiteSpaceWidth = mPaint.measureText(" ");
 
             for(String word : words){
 
                 boolean containsNewLine = (word.contains("\n") || word.contains("\r"));
 
-                if((sentenceWidth + mPaint.measureText(word)) < viewWidth){
-                    temporalLine.add(word);
-                    wordsInThisSentence++;
-                    temporalLine.add(" ");
-                    sentenceWidth += mPaint.measureText(word) + whiteSpaceWidth;
-                    if(containsNewLine){
-                        justifiedText += joinWords(temporalLine);
-                        resetLineValues();
+                if(containsNewLine){
+                    String[] splitted = word.split("(?<=\\n)");
+                    for(String splitWord : splitted){
+                        processWord(splitWord, splitWord.contains("\n"));
                     }
-                } else {
-                    while(sentenceWidth < viewWidth){
-                        sentenceWidth += thinSpaceWidth;
-                        if(sentenceWidth < viewWidth)
-                            whiteSpacesNeeded++;
-                    }
+                } else
+                    processWord(word, false);
 
-                    if(wordsInThisSentence > 1)
-                        insertWhiteSpaces(whiteSpacesNeeded, wordsInThisSentence, temporalLine);
-
-                    justifiedText += joinWords(temporalLine);
-                    resetLineValues();
-
-                    if(containsNewLine){
-                        justifiedText += word;
-                        wordsInThisSentence = 0;
-                        continue;
-                    }
-                    temporalLine.add(word);
-                    wordsInThisSentence = 1;
-                    temporalLine.add(" ");
-                    sentenceWidth += mPaint.measureText(word) + whiteSpaceWidth;
-                }
             }
             justifiedText += joinWords(temporalLine);
         }
 
         if(!justifiedText.isEmpty())
             this.setText(justifiedText);
+    }
+
+    private void processWord(String word, boolean containsNewLine){
+        if((sentenceWidth + mPaint.measureText(word)) < mViewWidth){
+            temporalLine.add(word);
+            wordsInThisSentence++;
+            temporalLine.add(containsNewLine ? "" : " ");
+            sentenceWidth += mPaint.measureText(word) + mWhiteSpaceWidth;
+            if(containsNewLine){
+                justifiedText += joinWords(temporalLine);
+                resetLineValues();
+            }
+        } else {
+            while(sentenceWidth < mViewWidth){
+                sentenceWidth += mThinSpaceWidth;
+                if(sentenceWidth < mViewWidth)
+                    whiteSpacesNeeded++;
+            }
+
+            if(wordsInThisSentence > 1)
+                insertWhiteSpaces(whiteSpacesNeeded, wordsInThisSentence, temporalLine);
+
+            justifiedText += joinWords(temporalLine);
+            resetLineValues();
+
+            if(containsNewLine){
+                justifiedText += word;
+                wordsInThisSentence = 0;
+                return;
+            }
+            temporalLine.add(word);
+            wordsInThisSentence = 1;
+            temporalLine.add(" ");
+            sentenceWidth += mPaint.measureText(word) + mWhiteSpaceWidth;
+        }
     }
 
     //Method that resets the values of the actual line being processed
