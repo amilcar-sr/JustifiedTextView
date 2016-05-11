@@ -2,6 +2,7 @@ package com.codesgood.example.activities;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -18,7 +19,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         TextView view = (TextView) findViewById(R.id.text_one);
-        view.setText(getResources().getString(R.string.lorem_ipsum_extended));
+        view.setText(Html.fromHtml(getResources().getString(R.string.test_html)));
     }
 
 
