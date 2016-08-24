@@ -29,7 +29,7 @@ JustifiedTextView is available on Maven Central. Please ensure that you are usin
 
 Gradle:
 ```
-compile 'com.codesgood:justifiedtextview:1.0.1'
+compile 'com.codesgood:justifiedtextview:1.0.2'
 ```
 
 Maven:
@@ -37,11 +37,9 @@ Maven:
 <dependency>
     <groupId>com.codesgood</groupId>
     <artifactId>justifiedtextview</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
 </dependency>
 ```
-
-Or download the jar [here](https://github.com/amilcar-sr/JustifiedTextView/blob/master/jtext.jar)
 
 
 ##Thanks

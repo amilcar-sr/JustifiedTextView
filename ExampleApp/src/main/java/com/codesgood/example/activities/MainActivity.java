@@ -19,7 +19,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         TextView view = (TextView) findViewById(R.id.text_one);
-        view.setText(Html.fromHtml(getResources().getString(R.string.test_html)));
+        view.setText(R.string.lorem_ipsum_extended);
     }
 
 

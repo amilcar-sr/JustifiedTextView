@@ -1,14 +1,17 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion '23.0.1'
+    compileSdkVersion 24
+    buildToolsVersion '23.0.3'
     defaultConfig {
         applicationId "com.codesgood.justifiedtext"
         minSdkVersion 10
-        targetSdkVersion 21
-        versionCode 2
-        versionName '1.0.1'
+        targetSdkVersion 24
+        versionCode 3
+        versionName '1.0.2'
+    }
+
+    productFlavors {
     }
     buildTypes {
         release {
@@ -16,12 +19,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    productFlavors {
-    }
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile project(':JustifiedTextView')
-    compile 'com.android.support:appcompat-v7:23.0.1'
+    compile 'com.android.support:appcompat-v7:24.1.1'
 }
