@@ -31,25 +31,25 @@ limitations under the License.
 public class JustifiedTextView extends TextView {
 
     //Object that helps us to measure the words and characters like spaces.
-    Paint mPaint;
+    private Paint mPaint;
 
-    //Thin space character that will fill the spaces
-    String mThinSpace = "\u200A";
+    //Thin space (Hair Space actually) character that will fill the spaces
+    private String mThinSpace = "\u200A";
 
     //String that will storage the text with the inserted spaces
-    String justifiedText = "";
+    private String mJustifiedText = "";
 
     //Float that represents the actual width of a sentence
-    float sentenceWidth = 0;
+    private float mSentenceWidth = 0;
 
     //Integer that counts the spaces needed to fill the line being processed
-    int whiteSpacesNeeded = 0;
+    private int mWhiteSpacesNeeded = 0;
 
     //Integer that counts the actual amount of words in the sentence
-    int wordsInThisSentence = 0;
+    private int mWordsInThisSentence = 0;
 
     //ArrayList of Strings that will contain the words of the sentence being processed
-    ArrayList<String> temporalLine = new ArrayList<String>();
+    private ArrayList<String> mTemporalLine = new ArrayList<String>();
 
     private int mViewWidth;
 
@@ -84,7 +84,7 @@ public class JustifiedTextView extends TextView {
         //This class won't justify the text if the TextView has wrap_content as width
         //And won't repeat the process of justify text if it's already done.
         //AND! won't justify the text if the view width is 0
-        if(params.width != ViewGroup.LayoutParams.WRAP_CONTENT && mViewWidth > 0 && words.length > 0 && justifiedText.isEmpty()){
+        if(params.width != ViewGroup.LayoutParams.WRAP_CONTENT && mViewWidth > 0 && words.length > 0 && mJustifiedText.isEmpty()){
 
             mThinSpaceWidth = mPaint.measureText(mThinSpace);
             mWhiteSpaceWidth = mPaint.measureText(" ");
@@ -102,54 +102,54 @@ public class JustifiedTextView extends TextView {
                     processWord(word, false);
 
             }
-            justifiedText += joinWords(temporalLine);
+            mJustifiedText += joinWords(mTemporalLine);
         }
 
-        if(!justifiedText.isEmpty())
-            this.setText(justifiedText);
+        if(!mJustifiedText.isEmpty())
+            this.setText(mJustifiedText);
     }
 
     private void processWord(String word, boolean containsNewLine){
-        if((sentenceWidth + mPaint.measureText(word)) < mViewWidth){
-            temporalLine.add(word);
-            wordsInThisSentence++;
-            temporalLine.add(containsNewLine ? "" : " ");
-            sentenceWidth += mPaint.measureText(word) + mWhiteSpaceWidth;
+        if((mSentenceWidth + mPaint.measureText(word)) < mViewWidth){
+            mTemporalLine.add(word);
+            mWordsInThisSentence++;
+            mTemporalLine.add(containsNewLine ? "" : " ");
+            mSentenceWidth += mPaint.measureText(word) + mWhiteSpaceWidth;
             if(containsNewLine){
-                justifiedText += joinWords(temporalLine);
+                mJustifiedText += joinWords(mTemporalLine);
                 resetLineValues();
             }
         } else {
-            while(sentenceWidth < mViewWidth){
-                sentenceWidth += mThinSpaceWidth;
-                if(sentenceWidth < mViewWidth)
-                    whiteSpacesNeeded++;
+            while(mSentenceWidth < mViewWidth){
+                mSentenceWidth += mThinSpaceWidth;
+                if(mSentenceWidth < mViewWidth)
+                    mWhiteSpacesNeeded++;
             }
 
-            if(wordsInThisSentence > 1)
-                insertWhiteSpaces(whiteSpacesNeeded, wordsInThisSentence, temporalLine);
+            if(mWordsInThisSentence > 1)
+                insertWhiteSpaces(mWhiteSpacesNeeded, mWordsInThisSentence, mTemporalLine);
 
-            justifiedText += joinWords(temporalLine);
+            mJustifiedText += joinWords(mTemporalLine);
             resetLineValues();
 
             if(containsNewLine){
-                justifiedText += word;
-                wordsInThisSentence = 0;
+                mJustifiedText += word;
+                mWordsInThisSentence = 0;
                 return;
             }
-            temporalLine.add(word);
-            wordsInThisSentence = 1;
-            temporalLine.add(" ");
-            sentenceWidth += mPaint.measureText(word) + mWhiteSpaceWidth;
+            mTemporalLine.add(word);
+            mWordsInThisSentence = 1;
+            mTemporalLine.add(" ");
+            mSentenceWidth += mPaint.measureText(word) + mWhiteSpaceWidth;
         }
     }
 
     //Method that resets the values of the actual line being processed
     private void resetLineValues(){
-        temporalLine.clear();
-        sentenceWidth = 0;
-        whiteSpacesNeeded = 0;
-        wordsInThisSentence = 0;
+        mTemporalLine.clear();
+        mSentenceWidth = 0;
+        mWhiteSpacesNeeded = 0;
+        mWordsInThisSentence = 0;
     }
 
     //Function that joins the words of the ArrayList
