@@ -2,31 +2,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="com.codesgood.example.activities.MainActivity"
-    android:orientation="vertical">
+    tools:context="com.codesgood.example.activities.MainActivity">
 
-    <TextView
-        android:text="JustifiedTextView"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_marginTop="10dp"
-        android:textSize="30sp"
-        android:textColor="@android:color/black"/>
+        android:layout_height="wrap_content">
 
-
-    <com.codesgood.views.JustifiedTextView
-        android:id="@+id/text_one"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_marginTop="25dp"
-        android:padding="10dp"
-        android:textSize="15sp"
-        android:textColor="@android:color/black"/>
+        <com.codesgood.views.JustifiedTextView
+            android:id="@+id/text_one"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="@string/lorem_ipsum_extended"
+            android:textColor="@android:color/black"
+            android:textSize="15sp" />
+    </ScrollView>
 
 </LinearLayout>
