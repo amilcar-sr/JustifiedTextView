@@ -1,13 +1,7 @@
 package com.codesgood.example.activities;
 
-import android.content.res.Resources;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-
-import android.text.Html;
-import android.text.Spannable;
-import android.text.Spanned;
 import android.widget.TextView;
 import com.codesgood.example.activities.util.StringHtmlUtils;
 import com.codesgood.justifiedtext.R;

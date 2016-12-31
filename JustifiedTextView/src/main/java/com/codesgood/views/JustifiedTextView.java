@@ -3,7 +3,6 @@ package com.codesgood.views;
 import android.content.Context;
 import android.graphics.Paint;
 import android.text.SpannableString;
-import android.text.Spanned;
 import android.text.SpannedString;
 import android.text.style.CharacterStyle;
 import android.util.AttributeSet;
@@ -88,9 +87,11 @@ public class JustifiedTextView extends TextView {
   @Override protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
     super.onLayout(changed, left, top, right, bottom);
 
-    if(mJustifiedText.replace(" ","").replace("",mThinSpace).equals(this.getText().toString().replace(" ","").replace("",mThinSpace)))
+    if (mJustifiedText.replace(" ", "")
+        .replace("", mThinSpace)
+        .equals(this.getText().toString().replace(" ", "").replace("", mThinSpace))) {
       return;
-
+    }
 
     ViewGroup.LayoutParams params = this.getLayoutParams();
 
@@ -170,7 +171,7 @@ public class JustifiedTextView extends TextView {
       int spaceCount = 0, wordCount = 0;
       boolean isCountingWord = false;
       int j = 0;
-      while (wordCount < (sH.getWordHolderIndex()+1)) {
+      while (wordCount < (sH.getWordHolderIndex() + 1)) {
         if (mJustifiedText.charAt(j) == ' ' || mJustifiedText.charAt(j) == ' ') {
           spaceCount++;
           if (isCountingWord) {
