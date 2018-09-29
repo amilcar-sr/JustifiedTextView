@@ -49,7 +49,7 @@ public class JustifiedTextView extends TextView {
     private int mWordsInThisSentence = 0;
 
     //ArrayList of Strings that will contain the words of the sentence being processed
-    private ArrayList<String> mTemporalLine = new ArrayList<String>();
+    private ArrayList<String> mTemporalLine = new ArrayList<>();
 
     private int mViewWidth;
 
@@ -154,11 +154,11 @@ public class JustifiedTextView extends TextView {
 
     //Function that joins the words of the ArrayList
     private String joinWords(ArrayList<String> words) {
-        String sentence = "";
+        StringBuilder sentence = new StringBuilder();
         for(String word : words){
-            sentence += word;
+            sentence.append(word);
         }
-        return sentence;
+        return sentence.toString();
     }
 
     //Method that inserts spaces into the words to make them fix perfectly in the width of the view. I know I'm a genius naming stuff :)
@@ -176,7 +176,7 @@ public class JustifiedTextView extends TextView {
                 int randomPosition = getRandomEvenNumber(sentence.size() - 1);
                 sentence.set(randomPosition, sentence.get(randomPosition) + mThinSpace);
             }
-        } else if(whiteSpacesNeeded > wordsInThisSentence){
+        } else {
             //I was using recursion to achieve this... but when you tried to watch the preview,
             //Android Studio couldn't show any preview because a StackOverflow happened.
             //So... it ended like this, with a wild while xD.
