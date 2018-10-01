@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /* ***********************************************************************
@@ -30,32 +31,14 @@ limitations under the License.
 //Created by CodesGood on 7/12/14.
 public class JustifiedTextView extends TextView {
 
-    //Object that helps us to measure the words and characters like spaces.
-    private Paint mPaint;
-
     //Thin space (Hair Space actually) character that will fill the spaces
-    private String mThinSpace = "\u200A";
+    private final static String THIN_SPACE = "\u200A";
 
     //String that will storage the text with the inserted spaces
     private String mJustifiedText = "";
 
-    //Float that represents the actual width of a sentence
-    private float mSentenceWidth = 0;
-
-    //Integer that counts the spaces needed to fill the line being processed
-    private int mWhiteSpacesNeeded = 0;
-
-    //Integer that counts the actual amount of words in the sentence
-    private int mWordsInThisSentence = 0;
-
-    //ArrayList of Strings that will contain the words of the sentence being processed
-    private ArrayList<String> mTemporalLine = new ArrayList<>();
-
-    private int mViewWidth;
-
-    private float mThinSpaceWidth;
-
-    private float mWhiteSpaceWidth;
+    //Object that helps us to measure the words and characters like spaces.
+    private Paint mPaint;
 
     //Default Constructors!
     public JustifiedTextView(Context context) {
@@ -72,138 +55,135 @@ public class JustifiedTextView extends TextView {
 
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
-        super.onLayout(changed, left, top, right, bottom);
         ViewGroup.LayoutParams params = this.getLayoutParams();
 
         String[] words = this.getText().toString().split(" ");
 
         mPaint = this.getPaint();
 
-        mViewWidth = this.getMeasuredWidth() - (getPaddingLeft() + getPaddingRight());
+        int viewWidth = this.getMeasuredWidth() - (getPaddingLeft() + getPaddingRight());
 
         //This class won't justify the text if the TextView has wrap_content as width
         //And won't repeat the process of justify text if it's already done.
         //AND! won't justify the text if the view width is 0
-        if(params.width != ViewGroup.LayoutParams.WRAP_CONTENT && mViewWidth > 0 && words.length > 0 && mJustifiedText.isEmpty()){
+        if (params.width != ViewGroup.LayoutParams.WRAP_CONTENT && viewWidth > 0 && words.length > 0 && mJustifiedText.isEmpty()) {
+            mJustifiedText = getJustifiedText(words, viewWidth);
 
-            mThinSpaceWidth = mPaint.measureText(mThinSpace);
-            mWhiteSpaceWidth = mPaint.measureText(" ");
-
-            for(String word : words){
-
-                boolean containsNewLine = (word.contains("\n") || word.contains("\r"));
-
-                if(containsNewLine){
-                    String[] splitted = word.split("(?<=\\n)");
-                    for(String splitWord : splitted){
-                        processWord(splitWord, splitWord.contains("\n"));
-                    }
-                } else
-                    processWord(word, false);
-
+            if (!mJustifiedText.isEmpty()) {
+                this.setText(mJustifiedText);
             }
-            mJustifiedText += joinWords(mTemporalLine);
         }
 
-        if(!mJustifiedText.isEmpty())
-            this.setText(mJustifiedText);
+        super.onLayout(changed, left, top, right, bottom);
     }
 
-    private void processWord(String word, boolean containsNewLine){
-        if((mSentenceWidth + mPaint.measureText(word)) < mViewWidth){
-            mTemporalLine.add(word);
-            mWordsInThisSentence++;
-            mTemporalLine.add(containsNewLine ? "" : " ");
-            mSentenceWidth += mPaint.measureText(word) + mWhiteSpaceWidth;
-            if(containsNewLine){
-                mJustifiedText += joinWords(mTemporalLine);
-                resetLineValues();
-            }
-        } else {
-            while(mSentenceWidth < mViewWidth){
-                mSentenceWidth += mThinSpaceWidth;
-                if(mSentenceWidth < mViewWidth)
-                    mWhiteSpacesNeeded++;
-            }
+    /**
+     * Retrieves a String with appropriate spaces to justify the text in the TextView.
+     *
+     * @param words Words in the TextView
+     * @param width TextView's width
+     * @return Justified Text
+     */
+    private String getJustifiedText(String[] words, int width) {
+        List<String> sentences = new ArrayList<>();
+        List<String> currentSentence = new ArrayList<>();
 
-            if(mWordsInThisSentence > 1)
-                insertWhiteSpaces(mWhiteSpacesNeeded, mWordsInThisSentence, mTemporalLine);
+        for (String word : words) {
+            boolean containsNewLine = (word.contains("\n") || word.contains("\r"));
 
-            mJustifiedText += joinWords(mTemporalLine);
-            resetLineValues();
-
-            if(containsNewLine){
-                mJustifiedText += word;
-                mWordsInThisSentence = 0;
-                return;
-            }
-            mTemporalLine.add(word);
-            mWordsInThisSentence = 1;
-            mTemporalLine.add(" ");
-            mSentenceWidth += mPaint.measureText(word) + mWhiteSpaceWidth;
-        }
-    }
-
-    //Method that resets the values of the actual line being processed
-    private void resetLineValues(){
-        mTemporalLine.clear();
-        mSentenceWidth = 0;
-        mWhiteSpacesNeeded = 0;
-        mWordsInThisSentence = 0;
-    }
-
-    //Function that joins the words of the ArrayList
-    private String joinWords(ArrayList<String> words) {
-        StringBuilder sentence = new StringBuilder();
-        for(String word : words){
-            sentence.append(word);
-        }
-        return sentence.toString();
-    }
-
-    //Method that inserts spaces into the words to make them fix perfectly in the width of the view. I know I'm a genius naming stuff :)
-    private void insertWhiteSpaces(int whiteSpacesNeeded, int wordsInThisSentence, ArrayList<String> sentence){
-
-        if(whiteSpacesNeeded == 0)
-            return;
-
-        if(whiteSpacesNeeded == wordsInThisSentence){
-            for(int i = 1; i < sentence.size(); i += 2){
-                sentence.set(i, sentence.get(i) + mThinSpace);
-            }
-        } else if(whiteSpacesNeeded < wordsInThisSentence){
-            for(int i = 0; i < whiteSpacesNeeded; i++){
-                int randomPosition = getRandomEvenNumber(sentence.size() - 1);
-                sentence.set(randomPosition, sentence.get(randomPosition) + mThinSpace);
-            }
-        } else {
-            //I was using recursion to achieve this... but when you tried to watch the preview,
-            //Android Studio couldn't show any preview because a StackOverflow happened.
-            //So... it ended like this, with a wild while xD.
-            while(whiteSpacesNeeded > wordsInThisSentence){
-                for(int i = 1; i < sentence.size() - 1; i += 2){
-                    sentence.set(i, sentence.get(i) + mThinSpace);
+            if (containsNewLine) {
+                String[] splitted = word.split("(?<=\\n)");
+                if (fitsInSentence(splitted[0], currentSentence, width, true)) {
+                    currentSentence.add(word);
+                } else {
+                    sentences.add(fillSentenceWithSpaces(currentSentence, width));
+                    currentSentence.clear();
+                    currentSentence.add(word);
                 }
-                whiteSpacesNeeded -= (wordsInThisSentence - 1);
-            }
-            if(whiteSpacesNeeded == 0)
-                return;
-
-            if(whiteSpacesNeeded == wordsInThisSentence){
-                for(int i = 1; i < sentence.size(); i += 2){
-                    sentence.set(i, sentence.get(i) + mThinSpace);
-                }
-            } else if(whiteSpacesNeeded < wordsInThisSentence){
-                for(int i = 0; i < whiteSpacesNeeded; i++){
-                    int randomPosition = getRandomEvenNumber(sentence.size() - 1);
-                    sentence.set(randomPosition, sentence.get(randomPosition) + mThinSpace);
-                }
+            } else if (fitsInSentence(word, currentSentence, width, true)) {
+                currentSentence.add(word);
+            } else {
+                sentences.add(fillSentenceWithSpaces(currentSentence, width));
+                currentSentence.clear();
+                currentSentence.add(word);
             }
         }
+
+        if (currentSentence.size() > 0) {
+            sentences.add(getSentenceFromList(currentSentence, true));
+        }
+
+        return getSentenceFromList(sentences, false);
     }
 
-    //Gets a random number, it's part of the algorithm... don't blame me.
-    private int getRandomEvenNumber(int max){
+    /**
+     * Creates a string using the words in the list and adds spaces between words if required.
+     *
+     * @param strings   Strings to be merged into one
+     * @param addSpaces Specifies if the method should add spaces between words.
+     * @return Returns a sentence using the words in the list.
+     */
+    private String getSentenceFromList(List<String> strings, boolean addSpaces) {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        for (String string : strings) {
+            stringBuilder.append(string);
+
+            if (addSpaces) {
+                stringBuilder.append(" ");
+            }
+        }
+
+        return stringBuilder.toString();
+    }
+
+    /**
+     * Fills sentence with appropriate amount of spaces.
+     *
+     * @param sentence Sentence we'll use to build the sentence with additional spaces
+     * @param width    View's width.
+     * @return String with spaces.
+     */
+    private String fillSentenceWithSpaces(List<String> sentence, int width) {
+        List<String> sentenceWithSpaces = new ArrayList<>();
+
+        for (String word : sentence) {
+            sentenceWithSpaces.add(word);
+            sentenceWithSpaces.add(" ");
+        }
+
+        while (fitsInSentence(THIN_SPACE, sentenceWithSpaces, width, false)) {
+            sentenceWithSpaces.add(1 + getRandomEvenNumber(sentenceWithSpaces.size() - 2), THIN_SPACE);
+        }
+
+        return getSentenceFromList(sentenceWithSpaces, false);
+    }
+
+    /**
+     * Verifies if word to be added will fit into the sentence
+     *
+     * @param word      Word to be added
+     * @param sentence  Sentence that will receive the new word
+     * @param width     View's width
+     * @param addSpaces Specifies weather we should add spaces to validation or not
+     * @return True if word fits, false otherwise.
+     */
+    private boolean fitsInSentence(String word, List<String> sentence, int width, boolean addSpaces) {
+        String stringSentence = getSentenceFromList(sentence, addSpaces);
+        stringSentence += word;
+
+        float sentenceWidth = mPaint.measureText(stringSentence);
+
+        return sentenceWidth < width;
+    }
+
+    /**
+     * Returns a random number, it's part of the algorithm... don't blame me.
+     *
+     * @param max Max number in range
+     * @return Random number.
+     */
+    private int getRandomEvenNumber(int max) {
         Random rand = new Random();
 
         // nextInt is normally exclusive of the top value,
