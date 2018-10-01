@@ -186,6 +186,10 @@ public class JustifiedTextView extends TextView {
     private int getRandomEvenNumber(int max) {
         Random rand = new Random();
 
+        while (max < 1) {
+            max++;
+        }
+
         // nextInt is normally exclusive of the top value,
         return rand.nextInt((max)) & ~1;
     }
