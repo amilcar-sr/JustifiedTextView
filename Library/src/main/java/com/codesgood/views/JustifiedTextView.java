@@ -1,7 +1,7 @@
 package com.codesgood.views;
 
 import android.content.Context;
-import android.graphics.Paint;
+import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -31,14 +31,23 @@ limitations under the License.
 //Created by CodesGood on 7/12/14.
 public class JustifiedTextView extends TextView {
 
-    //Thin space (Hair Space actually) character that will fill the spaces
-    private final static String THIN_SPACE = "\u200A";
+    //Hair space character that will fill the spaces
+    private final static String HAIR_SPACE = "\u200A";
+
+    //TextView's width
+    private int viewWidth;
+
+    //Justified sentences in TextView's text
+    private List<String> sentences = new ArrayList<>();
+
+    //Sentence being justified
+    private List<String> currentSentence = new ArrayList<>();
 
     //String that will storage the text with the inserted spaces
-    private String mJustifiedText = "";
+    private String justifiedText = "";
 
-    //Object that helps us to measure the words and characters like spaces.
-    private Paint mPaint;
+    //Object that generates random numbers, this is part of the justification algorithm.
+    Random random = new Random();
 
     //Default Constructors!
     public JustifiedTextView(Context context) {
@@ -54,66 +63,83 @@ public class JustifiedTextView extends TextView {
     }
 
     @Override
-    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
-        ViewGroup.LayoutParams params = this.getLayoutParams();
+    protected void onDraw(Canvas canvas) {
+        //This class won't repeat the process of justify text if it's already done.
+        if (!justifiedText.equals(this.getText().toString())) {
 
-        String[] words = this.getText().toString().split(" ");
+            ViewGroup.LayoutParams params = this.getLayoutParams();
 
-        mPaint = this.getPaint();
+            String text = this.getText().toString();
 
-        int viewWidth = this.getMeasuredWidth() - (getPaddingLeft() + getPaddingRight());
+            viewWidth = this.getMeasuredWidth() - (getPaddingLeft() + getPaddingRight());
 
-        //This class won't justify the text if the TextView has wrap_content as width
-        //And won't repeat the process of justify text if it's already done.
-        //AND! won't justify the text if the view width is 0
-        if (params.width != ViewGroup.LayoutParams.WRAP_CONTENT && viewWidth > 0 && words.length > 0 && mJustifiedText.isEmpty()) {
-            mJustifiedText = getJustifiedText(words, viewWidth);
+            //This class won't justify the text if the TextView has wrap_content as width
+            //and won't justify the text if the view width is 0
+            //AND! won't justify the text if this one isn't empty.
+            if (params.width != ViewGroup.LayoutParams.WRAP_CONTENT && viewWidth > 0 && !text.isEmpty()) {
+                justifiedText = getJustifiedText(text);
 
-            if (!mJustifiedText.isEmpty()) {
-                this.setText(mJustifiedText);
+                if (!justifiedText.isEmpty()) {
+                    this.setText(justifiedText);
+                    sentences.clear();
+                    currentSentence.clear();
+                }
+            } else {
+                super.onDraw(canvas);
             }
+        } else {
+            super.onDraw(canvas);
         }
-
-        super.onLayout(changed, left, top, right, bottom);
     }
+
 
     /**
      * Retrieves a String with appropriate spaces to justify the text in the TextView.
      *
-     * @param words Words in the TextView
-     * @param width TextView's width
-     * @return Justified Text
+     * @param text Text to be justified
+     * @return Justified text
      */
-    private String getJustifiedText(String[] words, int width) {
-        List<String> sentences = new ArrayList<>();
-        List<String> currentSentence = new ArrayList<>();
+    private String getJustifiedText(String text) {
+        String[] words = text.split(" ");
 
         for (String word : words) {
             boolean containsNewLine = (word.contains("\n") || word.contains("\r"));
+            String wordToEvaluate = word;
 
             if (containsNewLine) {
                 String[] splitted = word.split("(?<=\\n)");
-                if (fitsInSentence(splitted[0], currentSentence, width, true)) {
-                    currentSentence.add(word);
-                } else {
-                    sentences.add(fillSentenceWithSpaces(currentSentence, width));
-                    currentSentence.clear();
-                    currentSentence.add(word);
-                }
-            } else if (fitsInSentence(word, currentSentence, width, true)) {
-                currentSentence.add(word);
+                wordToEvaluate = splitted[0];
+            }
+
+            if (fitsInSentence(wordToEvaluate, currentSentence, true)) {
+                addWord(word, containsNewLine);
             } else {
-                sentences.add(fillSentenceWithSpaces(currentSentence, width));
+                sentences.add(fillSentenceWithSpaces(currentSentence));
                 currentSentence.clear();
-                currentSentence.add(word);
+                addWord(word, containsNewLine);
             }
         }
 
+        //Making sure we add the last sentence if needed
         if (currentSentence.size() > 0) {
             sentences.add(getSentenceFromList(currentSentence, true));
         }
 
         return getSentenceFromList(sentences, false);
+    }
+
+    /**
+     * Adds a word into sentence and starts a new one if "new line" is part of the string.
+     *
+     * @param word            Word to be added
+     * @param containsNewLine Specifies if the string contains a new line
+     */
+    private void addWord(String word, boolean containsNewLine) {
+        currentSentence.add(word);
+        if (containsNewLine) {
+            sentences.add(getSentenceFromList(currentSentence, true));
+            currentSentence.clear();
+        }
     }
 
     /**
@@ -141,19 +167,21 @@ public class JustifiedTextView extends TextView {
      * Fills sentence with appropriate amount of spaces.
      *
      * @param sentence Sentence we'll use to build the sentence with additional spaces
-     * @param width    View's width.
      * @return String with spaces.
      */
-    private String fillSentenceWithSpaces(List<String> sentence, int width) {
+    private String fillSentenceWithSpaces(List<String> sentence) {
         List<String> sentenceWithSpaces = new ArrayList<>();
 
+        //We fill with spaces first, we can do this with confidence because "fitsInSentence"
+        //already takes these spaces into account.
         for (String word : sentence) {
             sentenceWithSpaces.add(word);
             sentenceWithSpaces.add(" ");
         }
 
-        while (fitsInSentence(THIN_SPACE, sentenceWithSpaces, width, false)) {
-            sentenceWithSpaces.add(1 + getRandomEvenNumber(sentenceWithSpaces.size() - 2), THIN_SPACE);
+        //Filling sentence with thin spaces.
+        while (fitsInSentence(HAIR_SPACE, sentenceWithSpaces, false)) {
+            sentenceWithSpaces.add(getRandomNumber(sentenceWithSpaces.size() - 2), HAIR_SPACE);
         }
 
         return getSentenceFromList(sentenceWithSpaces, false);
@@ -164,17 +192,16 @@ public class JustifiedTextView extends TextView {
      *
      * @param word      Word to be added
      * @param sentence  Sentence that will receive the new word
-     * @param width     View's width
      * @param addSpaces Specifies weather we should add spaces to validation or not
      * @return True if word fits, false otherwise.
      */
-    private boolean fitsInSentence(String word, List<String> sentence, int width, boolean addSpaces) {
+    private boolean fitsInSentence(String word, List<String> sentence, boolean addSpaces) {
         String stringSentence = getSentenceFromList(sentence, addSpaces);
         stringSentence += word;
 
-        float sentenceWidth = mPaint.measureText(stringSentence);
+        float sentenceWidth = getPaint().measureText(stringSentence);
 
-        return sentenceWidth < width;
+        return sentenceWidth < viewWidth;
     }
 
     /**
@@ -183,14 +210,8 @@ public class JustifiedTextView extends TextView {
      * @param max Max number in range
      * @return Random number.
      */
-    private int getRandomEvenNumber(int max) {
-        Random rand = new Random();
-
-        while (max < 1) {
-            max++;
-        }
-
+    private int getRandomNumber(int max) {
         // nextInt is normally exclusive of the top value,
-        return rand.nextInt((max)) & ~1;
+        return random.nextInt(max) + 1;
     }
 }
