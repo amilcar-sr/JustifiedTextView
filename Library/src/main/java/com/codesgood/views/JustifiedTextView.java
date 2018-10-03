@@ -31,25 +31,28 @@ limitations under the License.
 //Created by CodesGood on 7/12/14.
 public class JustifiedTextView extends TextView {
 
-    //Hair space character that will fill the spaces
+    //Hair space character that will fill the spaces.
     private final static String HAIR_SPACE = "\u200A";
 
-    //TextView's width
+    //TextView's width.
     private int viewWidth;
 
-    //Justified sentences in TextView's text
+    //Justified sentences in TextView's text.
     private List<String> sentences = new ArrayList<>();
 
-    //Sentence being justified
+    //Sentence being justified.
     private List<String> currentSentence = new ArrayList<>();
 
-    //String that will storage the text with the inserted spaces
+    //Sentence filled with spaces.
+    private List<String> sentenceWithSpaces = new ArrayList<>();
+
+    //String that will storage the text with the inserted spaces.
     private String justifiedText = "";
 
     //Object that generates random numbers, this is part of the justification algorithm.
     Random random = new Random();
 
-    //Default Constructors!
+    //Default Constructors.
     public JustifiedTextView(Context context) {
         super(context);
     }
@@ -75,7 +78,7 @@ public class JustifiedTextView extends TextView {
 
             //This class won't justify the text if the TextView has wrap_content as width
             //and won't justify the text if the view width is 0
-            //AND! won't justify the text if this one isn't empty.
+            //AND! won't justify the text if it's empty.
             if (params.width != ViewGroup.LayoutParams.WRAP_CONTENT && viewWidth > 0 && !text.isEmpty()) {
                 justifiedText = getJustifiedText(text);
 
@@ -120,11 +123,12 @@ public class JustifiedTextView extends TextView {
             }
         }
 
-        //Making sure we add the last sentence if needed
+        //Making sure we add the last sentence if needed.
         if (currentSentence.size() > 0) {
             sentences.add(getSentenceFromList(currentSentence, true));
         }
 
+        //Returns the justified text.
         return getSentenceFromList(sentences, false);
     }
 
@@ -170,18 +174,21 @@ public class JustifiedTextView extends TextView {
      * @return String with spaces.
      */
     private String fillSentenceWithSpaces(List<String> sentence) {
-        List<String> sentenceWithSpaces = new ArrayList<>();
+        sentenceWithSpaces.clear();
 
-        //We fill with spaces first, we can do this with confidence because "fitsInSentence"
-        //already takes these spaces into account.
-        for (String word : sentence) {
-            sentenceWithSpaces.add(word);
-            sentenceWithSpaces.add(" ");
-        }
+        //We don't need to do this process if the sentence received is a single word.
+        if (sentence.size() > 1) {
+            //We fill with normal spaces first, we can do this with confidence because "fitsInSentence"
+            //already takes these spaces into account.
+            for (String word : sentence) {
+                sentenceWithSpaces.add(word);
+                sentenceWithSpaces.add(" ");
+            }
 
-        //Filling sentence with thin spaces.
-        while (fitsInSentence(HAIR_SPACE, sentenceWithSpaces, false)) {
-            sentenceWithSpaces.add(getRandomNumber(sentenceWithSpaces.size() - 2), HAIR_SPACE);
+            //Filling sentence with thin spaces.
+            while (fitsInSentence(HAIR_SPACE, sentenceWithSpaces, false)) {
+                sentenceWithSpaces.add(getRandomNumber(sentenceWithSpaces.size() - 2), HAIR_SPACE);
+            }
         }
 
         return getSentenceFromList(sentenceWithSpaces, false);
