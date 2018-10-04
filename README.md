@@ -3,7 +3,7 @@ JustifiedTextView
 
 JustifiedTextView is an Android View that justifies the Text! 🙌🏻 
 
-Now Android has its own way to justify the text for TextViews BUT! the method that makes this possible ([setJustificationMode(int)](https://developer.android.com/reference/android/widget/TextView.html#setJustificationMode(int))) needs a min API level 26, so JustifiedTextView is meant to give support to older Android Versions. If your min API level is 26, I recommend TextView.setJustificationMode(int).
+**In API level 26** Android introduced [setJustificationMode(int)](https://developer.android.com/reference/android/widget/TextView.html#setJustificationMode(int)), which is meant to justify the text inside a TextView. If your min API level is 26, I recommend TextView.setJustificationMode(int). But if you need to support older Android versions, JustifiedTextView is what you need 😉
 
 ![alt portrait](https://raw.githubusercontent.com/amilcar-sr/amilcar-sr.github.io/master/JustifiedTextView/portrait.png)
 
