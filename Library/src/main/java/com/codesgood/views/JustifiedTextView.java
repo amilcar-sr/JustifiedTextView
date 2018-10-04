@@ -31,8 +31,11 @@ limitations under the License.
 //Created by CodesGood on 7/12/14.
 public class JustifiedTextView extends TextView {
 
-    //Hair space character that will fill the spaces.
+    //Hair space character that will fill the space among spaces.
     private final static String HAIR_SPACE = "\u200A";
+
+    //Normal space character that will take place between words.
+    private final static String NORMAL_SPACE = " ";
 
     //TextView's width.
     private int viewWidth;
@@ -50,7 +53,7 @@ public class JustifiedTextView extends TextView {
     private String justifiedText = "";
 
     //Object that generates random numbers, this is part of the justification algorithm.
-    Random random = new Random();
+    private Random random = new Random();
 
     //Default Constructors.
     public JustifiedTextView(Context context) {
@@ -68,13 +71,12 @@ public class JustifiedTextView extends TextView {
     @Override
     protected void onDraw(Canvas canvas) {
         //This class won't repeat the process of justify text if it's already done.
-        if (!justifiedText.equals(this.getText().toString())) {
+        if (!justifiedText.equals(getText().toString())) {
 
-            ViewGroup.LayoutParams params = this.getLayoutParams();
+            ViewGroup.LayoutParams params = getLayoutParams();
+            String text = getText().toString();
 
-            String text = this.getText().toString();
-
-            viewWidth = this.getMeasuredWidth() - (getPaddingLeft() + getPaddingRight());
+            viewWidth = getMeasuredWidth() - (getPaddingLeft() + getPaddingRight());
 
             //This class won't justify the text if the TextView has wrap_content as width
             //and won't justify the text if the view width is 0
@@ -83,7 +85,7 @@ public class JustifiedTextView extends TextView {
                 justifiedText = getJustifiedText(text);
 
                 if (!justifiedText.isEmpty()) {
-                    this.setText(justifiedText);
+                    setText(justifiedText);
                     sentences.clear();
                     currentSentence.clear();
                 }
@@ -95,7 +97,6 @@ public class JustifiedTextView extends TextView {
         }
     }
 
-
     /**
      * Retrieves a String with appropriate spaces to justify the text in the TextView.
      *
@@ -103,18 +104,12 @@ public class JustifiedTextView extends TextView {
      * @return Justified text
      */
     private String getJustifiedText(String text) {
-        String[] words = text.split(" ");
+        String[] words = text.split(NORMAL_SPACE);
 
         for (String word : words) {
             boolean containsNewLine = (word.contains("\n") || word.contains("\r"));
-            String wordToEvaluate = word;
 
-            if (containsNewLine) {
-                String[] splitted = word.split("(?<=\\n)");
-                wordToEvaluate = splitted[0];
-            }
-
-            if (fitsInSentence(wordToEvaluate, currentSentence, true)) {
+            if (fitsInSentence(word, currentSentence, true)) {
                 addWord(word, containsNewLine);
             } else {
                 sentences.add(fillSentenceWithSpaces(currentSentence));
@@ -141,7 +136,7 @@ public class JustifiedTextView extends TextView {
     private void addWord(String word, boolean containsNewLine) {
         currentSentence.add(word);
         if (containsNewLine) {
-            sentences.add(getSentenceFromList(currentSentence, true));
+            sentences.add(getSentenceFromListCheckingNewLines(currentSentence));
             currentSentence.clear();
         }
     }
@@ -160,7 +155,29 @@ public class JustifiedTextView extends TextView {
             stringBuilder.append(string);
 
             if (addSpaces) {
-                stringBuilder.append(" ");
+                stringBuilder.append(NORMAL_SPACE);
+            }
+        }
+
+        return stringBuilder.toString();
+    }
+
+    /**
+     * Creates a string using the words in the list and adds spaces between words taking new lines
+     * in consideration.
+     *
+     * @param strings Strings to be merged into one
+     * @return Returns a sentence using the words in the list.
+     */
+    private String getSentenceFromListCheckingNewLines(List<String> strings) {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        for (String string : strings) {
+            stringBuilder.append(string);
+
+            //We don't want to add a space next to the word if this one contains a new line character
+            if (!string.contains("\n") && !string.contains("\r")) {
+                stringBuilder.append(NORMAL_SPACE);
             }
         }
 
@@ -182,7 +199,7 @@ public class JustifiedTextView extends TextView {
             //already takes these spaces into account.
             for (String word : sentence) {
                 sentenceWithSpaces.add(word);
-                sentenceWithSpaces.add(" ");
+                sentenceWithSpaces.add(NORMAL_SPACE);
             }
 
             //Filling sentence with thin spaces.
