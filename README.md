@@ -1,7 +1,9 @@
 JustifiedTextView
 =========
 
-JustifiedTextView is an Android View that justifies the Text!
+JustifiedTextView is an Android View that justifies the Text! 🙌🏻 
+
+Now Android has its own way to justify the text for TextViews BUT! the method that makes this possible ([setJustificationMode(int)](https://developer.android.com/reference/android/widget/TextView.html#setJustificationMode(int))) needs a min API level 26, so JustifiedTextView is meant to give support to older Android Versions. If your min API level is 26, I recommend TextView.setJustificationMode(int).
 
 ![alt portrait](https://raw.githubusercontent.com/amilcar-sr/amilcar-sr.github.io/master/JustifiedTextView/portrait.png)
 
@@ -24,9 +26,9 @@ You just have to add the view in your layout:
         android:textSize="15sp" />
 ```
 
-And that's it! the text contained in the JustifiedTextView view will be justified. (In this example I wrote 15sp as textSize, but you can use a different textSize and it won't be a problem).
+**And that's it!** 🎉 the text contained in the JustifiedTextView view will be justified. (In this example I wrote 15sp as textSize, but you can use a different textSize and it won't be a problem).
 
-You can set the text programmatically as well, you can even use JustifiedTextView as a regular TextView in your java class (because it extends TextView) and the result would be the same justified text in your UI. 
+**You can set the text programmatically as well** 👍🏻, you can even use JustifiedTextView as a regular TextView in your java class (because it extends TextView) and the result would be the same justified text in your UI. 
 
 Here is an example:
 
