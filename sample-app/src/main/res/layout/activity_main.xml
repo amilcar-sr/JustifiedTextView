@@ -14,11 +14,10 @@
         android:layout_height="wrap_content">
 
         <com.codesgood.views.JustifiedTextView
-            android:id="@+id/text_one"
+            android:id="@+id/tv_justified_paragraph"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:text="@string/lorem_ipsum_extended"
             android:textColor="@android:color/black"
             android:textSize="15sp" />
     </ScrollView>

@@ -15,6 +15,7 @@ You just have to add the view in your layout:
 
 ```xml
 <com.codesgood.views.JustifiedTextView
+        android:id="@+id/tv_justified_paragraph"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
@@ -24,6 +25,15 @@ You just have to add the view in your layout:
 ```
 
 And that's it! the text contained in the JustifiedTextView view will be justified. (In this example I wrote 15sp as textSize, but you can use a different textSize and it won't be a problem).
+
+You can set the text programmatically as well, you can even use JustifiedTextView as a regular TextView in your java class (because it extends TextView) and the result would be the same justified text in your UI. 
+
+Here is an example:
+
+```java
+TextView justifiedParagraph = findViewById(R.id.tv_justified_paragraph);
+justifiedParagraph.setText(R.string.lorem_ipsum_extended);
+````
 
 
 ## Add JustifiedTextView to your project
