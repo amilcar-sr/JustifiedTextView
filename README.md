@@ -3,33 +3,36 @@ JustifiedTextView
 
 JustifiedTextView is an Android View that justifies the Text!
 
-![alt landscape](https://raw.githubusercontent.com/amilcar-sr/amilcar-sr.github.io/master/jtext/jtext_land.png)
-
-![alt portrait](https://raw.githubusercontent.com/amilcar-sr/amilcar-sr.github.io/master/jtext/jtext_port.png)
+![alt portrait](https://raw.githubusercontent.com/amilcar-sr/amilcar-sr.github.io/master/JustifiedTextView/portrait.png)
 
 
-##Usage
+![alt landscape](https://raw.githubusercontent.com/amilcar-sr/amilcar-sr.github.io/master/JustifiedTextView/landscape.png)
+
+
+## Usage
 
 You just have to add the view in your layout:
 
 ```xml
 <com.codesgood.views.JustifiedTextView
-        android:text="@string/lorem_ipsum"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="15sp"/>
+        android:padding="10dp"
+        android:text="@string/lorem_ipsum_extended"
+        android:textColor="@android:color/black"
+        android:textSize="15sp" />
 ```
 
 And that's it! the text contained in the JustifiedTextView view will be justified. (In this example I wrote 15sp as textSize, but you can use a different textSize and it won't be a problem).
 
 
-##Add JustifiedTextView to your project
+## Add JustifiedTextView to your project
 
 JustifiedTextView is available on Maven Central. Please ensure that you are using the latest version by [checking here](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.codesgood%22%20AND%20a%3A%22justifiedtextview%22)
 
 Gradle:
 ```
-compile 'com.codesgood:justifiedtextview:1.0.2'
+compile 'com.codesgood:justifiedtextview:1.1.0'
 ```
 
 Maven:
@@ -37,17 +40,17 @@ Maven:
 <dependency>
     <groupId>com.codesgood</groupId>
     <artifactId>justifiedtextview</artifactId>
-    <version>1.0.2</version>
+    <version>1.1.0</version>
 </dependency>
 ```
 
 
-##Thanks
+## Thanks
 
-- [Rose Hulman Institute of Technology (Algorithm source)](http://www.rose-hulman.edu/Users/faculty/young/CS-Classes/csse220/200820/web/Programs/Markov/justification.html)
+- [Rose Hulman Institute of Technology (Algorithm source)](https://www.rose-hulman.edu/class/csse/csse221/200910/Projects/Markov/justification.html)
 
 
-##License
+## License
 
     Copyright 2014 CodesGood
 
