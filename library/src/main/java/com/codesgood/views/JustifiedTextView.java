@@ -204,6 +204,8 @@ public class JustifiedTextView extends TextView {
 
             //Filling sentence with thin spaces.
             while (fitsInSentence(HAIR_SPACE, sentenceWithSpaces, false)) {
+                //We remove 2 from the sentence size because we need to make sure we are not adding
+                //spaces to the end of the line.
                 sentenceWithSpaces.add(getRandomNumber(sentenceWithSpaces.size() - 2), HAIR_SPACE);
             }
         }
@@ -235,7 +237,8 @@ public class JustifiedTextView extends TextView {
      * @return Random number.
      */
     private int getRandomNumber(int max) {
-        // nextInt is normally exclusive of the top value,
+        //We add 1 to the result because we wanna prevent the logic from adding
+        //spaces at the beginning of the sentence.
         return random.nextInt(max) + 1;
     }
 }
