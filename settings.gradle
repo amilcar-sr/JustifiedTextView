@@ -1,1 +1,1 @@
-include 'sample-app', 'justified-library'
+include 'sample-app', 'library'
