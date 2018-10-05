@@ -23,6 +23,6 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation project(':library')
+    implementation project(':justified-library')
     implementation 'com.android.support:appcompat-v7:28.0.0'
 }
