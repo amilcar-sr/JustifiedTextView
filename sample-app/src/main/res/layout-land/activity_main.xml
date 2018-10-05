@@ -14,21 +14,23 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:padding="10dp"
         android:text="@string/lorem_ipsum"
         android:textColor="@android:color/black"
         android:textSize="14sp" />
 
-    <com.codesgood.views.JustifiedTextView
-        android:id="@+id/text_two"
+    <ScrollView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginLeft="2dp"
-        android:layout_weight="1"
-        android:padding="4dp"
-        android:text="@string/lorem_ipsum_extended"
-        android:textColor="@android:color/black"
-        android:textSize="12sp" />
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_weight="1">
+
+        <com.codesgood.views.JustifiedTextView
+            android:id="@+id/tv_justified_paragraph"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
+            android:textSize="12sp" />
+    </ScrollView>
 
 </LinearLayout>
