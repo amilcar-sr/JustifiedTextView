@@ -28,7 +28,7 @@ You just have to add the view in your layout:
         android:textSize="15sp" />
 ```
 
-**And that's it!** 🎉 the text contained in the JustifiedTextView view will be justified. (In this example I wrote 15sp as textSize, but you can use a different textSize and it won't be a problem).
+**And that's it!** 🎉 the text contained in the JustifiedTextView will be justified. (In this example I used 15sp as textSize, but you can use a different textSize and it won't be a problem).
 
 **You can set the text programmatically as well** 👍🏻, you can even use JustifiedTextView as a regular TextView in your java class (because it extends TextView) and the result would be the same justified text in your UI. 
 
@@ -42,7 +42,7 @@ justifiedParagraph.setText(R.string.lorem_ipsum_extended);
 
 ## Add JustifiedTextView to your project
 
-JustifiedTextView is available on Maven Central. Please ensure that you are using the latest version by [checking here](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.codesgood%22%20AND%20a%3A%22justifiedtextview%22)
+JustifiedTextView is available on Maven Central. Please make sure you're using the latest version by [checking here](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.codesgood%22%20AND%20a%3A%22justifiedtextview%22)
 
 Gradle:
 ```
