@@ -8,10 +8,12 @@ Android introduced in **API level 26** the method [setJustificationMode(int)](ht
 
 If your min API level is 26, I recommend **TextView.setJustificationMode(int)**. But if you need to support older Android versions, JustifiedTextView is what you need 😉
 
-![alt portrait](https://raw.githubusercontent.com/amilcar-sr/amilcar-sr.github.io/master/JustifiedTextView/portrait.png)
-
 
 ![alt landscape](https://raw.githubusercontent.com/amilcar-sr/amilcar-sr.github.io/master/JustifiedTextView/landscape.png)
+
+
+![alt portrait](https://raw.githubusercontent.com/amilcar-sr/amilcar-sr.github.io/master/JustifiedTextView/portrait.png)
+
 
 
 ## Usage
